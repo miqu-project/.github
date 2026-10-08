@@ -1,6 +1,21 @@
-# Miqu Project
+<p align="center">
+  <img src="https://raw.githubusercontent.com/miqu-project/.github/main/assets/logo.png" alt="Miqu Project Logo" width="220" />
+</p>
 
-> **A cohesive, high-performance Wayland desktop ecosystem & native mobile applications.**
+<h1 align="center">Miqu Project</h1>
+
+<p align="center">
+  <b>A cohesive, high-performance Wayland desktop ecosystem & native mobile applications.</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/miqu-project/miquland"><img src="https://img.shields.io/badge/Compositor-miquland-blue?style=flat-square" alt="miquland" /></a>
+  <a href="https://github.com/miqu-project/miqutoolkit"><img src="https://img.shields.io/badge/Toolkit-miqutoolkit-purple?style=flat-square" alt="miqutoolkit" /></a>
+  <a href="https://github.com/miqu-project/miqu-linux-apps"><img src="https://img.shields.io/badge/Apps-miqu--linux--apps-green?style=flat-square" alt="miqu-linux-apps" /></a>
+  <a href="https://github.com/miqu-project/miqu-android"><img src="https://img.shields.io/badge/Mobile-miqu--android-orange?style=flat-square" alt="miqu-android" /></a>
+</p>
+
+---
 
 Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications.
 
