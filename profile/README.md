@@ -45,15 +45,20 @@ The Miqu ecosystem is structured across four primary repositories:
 
 ## 📦 Native Application Suite Overview
 
+- 📊 **`miqubar`** — Wayland status bar and taskbar with workspace indicators, system tray, battery/network telemetry, and flyout menus.
 - 🖥️ **`miqudesk`** — Interactive desktop canvas & widget layer bringing classic desktop usability into the Wayland tiling environment.
+- 🎨 **`miqutheme`** — Visual theme and appearance manager with dynamic Material You wallpaper color extraction.
 - 🔒 **`miqusecure`** — Privacy and firewall command center (OpenSnitch, Tor, LUKS, audit policies).
 - 🎵 **`miqumusic`** — High-efficiency, lightweight native MPD client and audio player.
 - 🚀 **`miqulauncher`** — Fuzzy application launcher, dmenu alternative, and workspace/window switcher.
 - 👁️ **`miquoverview`** — GPU-accelerated live workspace expose and overview plugin for `miquland`.
 - 🖼️ **`miqugallery`** — Minimalist, responsive image viewer and media gallery.
-- 📊 **`miquinfo`** — System telemetry, hardware resource monitor, and diagnostic dashboard.
+- 📈 **`miquinfo`** — System telemetry, hardware resource monitor, and diagnostic dashboard.
 - 🚪 **`miqudm`** — Wayland-native Display Manager & greeter with PAM/logind session integration.
-- 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock`) and idle management.
+- 🌄 **`miqubg`** — Independent wallpaper daemon for rendering and transitioning desktop background images.
+- 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock-v1`) and idle management.
+- 🛡️ **`miqupolkit`** — Native graphical Polkit authentication agent handling privilege escalation prompts.
+- 🧪 **`miqutest`** — Interactive widget testing sandbox and showcase for `miqutoolkit` controls.
 
 ---
 
