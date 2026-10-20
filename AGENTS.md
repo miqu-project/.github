@@ -209,6 +209,12 @@ Config::get()->setup_config_watcher();
 ### 13. Opportunistic Refactoring
 - If non-conforming or unmodular code is spotted during analysis of an unrelated task, offer to refactor that part.
 
+### 14. Zero Idle CPU Usage & Frame Loop Hygiene (Strict Event-Driven Inactivity)
+- **Absolute 0% Idle CPU in `miquland` & Ecosystem**: The compositor (`miquland`) and all desktop applications must sleep completely in the Wayland event loop when there are no active input events, damaged scene buffers, or running animations. At steady-state idle, CPU utilization must be strictly 0.0%.
+- **Zero Polling & Tick Loops**: Never use continuous timers, tick loops, periodic wakeups, or unthrottled frame callbacks when the UI is static. Frame scheduling must be strictly damage-driven (`wlr_output_schedule_frame` invoked only when actual damage occurs).
+- **Instant Animation Timer Teardown**: Any frame callbacks, animators, and timer event sources must be immediately disarmed and destroyed the exact moment an animation completes; they must never remain active or spin in the event loop.
+- **Buffer Commit Discipline**: Never trigger output frame repaints or damage tracking on redundant client surface commits if buffer contents, subsurface states, or view positions have not changed.
+
 ---
 
 ## Build System & Installation Standards (`CMakeLists.txt` & `make.sh`)
