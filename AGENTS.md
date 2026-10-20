@@ -144,7 +144,6 @@ Config::get()->setup_config_watcher();
 16. **Gamma Control in `miqubar`**: Implement gamma / blue light control module and flyout slider in `miqubar` (integrating with gamma control protocol / `miqusunset`).
 17. **`miqunotify` Toast Layout & Shadow Fix**: Refine `miqunotify` notification toast rendering and layout—evaluate disabling drop shadows and guarantee notification body/action content stays strictly confined within the toast bounds without overflow or clipping.
 18. **Special / Scratchpad Workspace Support in `miquland`**: Implement special workspace (scratchpad) functionality in `miquland` (toggleable overlay workspace, dispatching windows to/from special workspace, keybindings, and IPC controls).
-19. **Website Automatic Dark Mode**: Add automatic dark/light theme switching to the official website (`miqu-project.github.io`) responding to the `prefers-color-scheme` media query alongside manual toggle persistence.
 
 ---
 
