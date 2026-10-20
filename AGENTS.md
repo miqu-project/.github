@@ -141,6 +141,10 @@ Config::get()->setup_config_watcher();
 13. **Configuration Format Modernization (Lua / Advanced Scriptable Formats)**: Evaluate transitioning or expanding configuration formats across `miquland` and ecosystem components from custom key-value parsers to Lua (e.g. LuaJIT / Sol2) or other expressive configuration formats (enabling programmable rules, dynamic event callbacks, math expressions, and modular config architectures).
 14. **Add separate `miqupluginmanager`**: Dedicated manager and utility to discover, install, update, enable/disable, and configure `miquland` plugins and extensions.
 15. **`miqutheme` Auto-Seeding & Asset Layering Study**: `miqutheme` currently copies default schemes, wallpapers, and matugen templates into `~/.config/miqutheme/` on its very first launch (`ensure_directories_and_seed()`). Study and address potential loopholes (e.g. user directory pollution on startup, stale local copies when system schemes update upstream) and evaluate transitioning `miqutheme` to load system assets directly from `/usr/share/miqutheme/` while reserving `~/.config/miqutheme/` strictly for user-created custom wallpapers and palettes.
+16. **Gamma Control in `miqubar`**: Implement gamma / blue light control module and flyout slider in `miqubar` (integrating with gamma control protocol / `miqusunset`).
+17. **`miqunotify` Toast Layout & Shadow Fix**: Refine `miqunotify` notification toast rendering and layout—evaluate disabling drop shadows and guarantee notification body/action content stays strictly confined within the toast bounds without overflow or clipping.
+18. **Special / Scratchpad Workspace Support in `miquland`**: Implement special workspace (scratchpad) functionality in `miquland` (toggleable overlay workspace, dispatching windows to/from special workspace, keybindings, and IPC controls).
+19. **Website Automatic Dark Mode**: Add automatic dark/light theme switching to the official website (`miqu-project.github.io`) responding to the `prefers-color-scheme` media query alongside manual toggle persistence.
 
 ---
 
