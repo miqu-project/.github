@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/miqu-project/miqu"><img src="https://img.shields.io/badge/Desktop-miqu-red?style=flat-square" alt="miqu" /></a>
   <a href="https://github.com/miqu-project/miquland"><img src="https://img.shields.io/badge/Compositor-miquland-blue?style=flat-square" alt="miquland" /></a>
   <a href="https://github.com/miqu-project/miqutoolkit"><img src="https://img.shields.io/badge/Toolkit-miqutoolkit-purple?style=flat-square" alt="miqutoolkit" /></a>
   <a href="https://github.com/miqu-project/miqu-linux-apps"><img src="https://img.shields.io/badge/Apps-miqu--linux--apps-green?style=flat-square" alt="miqu-linux-apps" /></a>
@@ -19,18 +20,29 @@
 
 Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications.
 
+> [!TIP]
+> ### 🚀 Quick Install (Get Started in 1 Minute)
+> To clone and install the entire Miqu ecosystem in one step, clone our primary [**`miqu`**](https://github.com/miqu-project/miqu) repository:
+> ```bash
+> git clone --recurse-submodules https://github.com/miqu-project/miqu.git
+> cd miqu
+> sudo ./install_all.sh
+> ```
+
 ---
 
 ## 🏛️ Ecosystem Architecture
 
-The Miqu ecosystem is structured across four primary repositories:
+The Miqu ecosystem is structured across the following core repositories:
 
 | Repository | Role | Technology | Description |
 |:---|:---|:---:|:---|
+| [**`miqu`**](https://github.com/miqu-project/miqu) | **Desktop Umbrella & Orchestrator** | Shell / Git Submodules | Unified meta-repository synchronizing all ecosystem submodules and providing the single-command orchestrator (`install_all.sh`). |
 | [**`miquland`**](https://github.com/miqu-project/miquland) | **Compositor & Window Manager** | C++20 / wlroots | GPU-accelerated tiling compositor with dynamic layout engines, exposed overview plugin, and IPC daemon (`miquctl`). |
 | [**`miqutoolkit`**](https://github.com/miqu-project/miqutoolkit) | **Shared UI Toolkit** | C++20 / Cairo / Pango | Unified Wayland application toolkit providing declarative widgets, fluid animations, and live theme propagation. |
 | [**`miqu-linux-apps`**](https://github.com/miqu-project/miqu-linux-apps) | **Native Desktop Suite** | C++20 / miqutoolkit | Cohesive first-party desktop applications (`miqudesk`, `miqusecure`, `miqumusic`, `miqulauncher`, `miqugallery`, `miqudm`, etc.). |
 | [**`miqu-android`**](https://github.com/miqu-project/miqu-android) | **Mobile Applications** | Kotlin / Jetpack Compose | Native Android apps and mobile companions designed to complement the Miqu environment. |
+| [**`miqu-project.github.io`**](https://github.com/miqu-project/miqu-project.github.io) | **Documentation & Web Portal** | Web / Static | Official landing page and public documentation website. |
 
 ---
 
