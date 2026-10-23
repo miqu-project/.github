@@ -16,6 +16,10 @@
   <a href="https://github.com/miqu-project/miqu-android"><img src="https://img.shields.io/badge/Mobile-miqu--android-orange?style=flat-square" alt="miqu-android" /></a>
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc1.png" alt="Miqu Desktop" width="100%" />
+</p>
+
 ---
 
 Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications.
@@ -71,6 +75,20 @@ The Miqu project is organized across the following core repositories:
 - 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock-v1`) and idle management.
 - 🛡️ **`miqupolkit`** — Native graphical Polkit authentication agent handling privilege escalation prompts.
 - 🧪 **`miqutest`** — Interactive widget testing sandbox and showcase for `miqutoolkit` controls.
+
+---
+
+## 📸 Screenshots
+
+![Screenshot 1](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc1.png)
+
+![Screenshot 2](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc2.png)
+
+![Screenshot 3](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc3.png)
+
+![Screenshot 4](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc4.png)
+
+![Screenshot 5](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc5.png)
 
 ---
 
