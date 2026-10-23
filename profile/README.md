@@ -31,9 +31,9 @@ Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, 
 
 ---
 
-## 🏛️ Ecosystem Architecture
+## 🏛️ Project & Repository Structure
 
-The Miqu ecosystem is structured across the following core repositories:
+The Miqu project is organized across the following core repositories:
 
 | Repository | Role | Technology | Description |
 |:---|:---|:---:|:---|
