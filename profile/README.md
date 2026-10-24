@@ -22,7 +22,7 @@
 
 ---
 
-Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications.
+Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications. Full documentation, architectural guides, and IPC references are available on the [**Miqu Project Documentation Portal**](https://miqu-project.github.io/#docs).
 
 > [!TIP]
 > ### 🚀 Quick Install (Get Started in 1 Minute)
