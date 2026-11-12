@@ -1,103 +1,72 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/miqu-project/.github/main/assets/logo.png" alt="Miqu Project Logo" width="220" />
+  <img src="https://raw.githubusercontent.com/miqu-project/.github/main/assets/logo.png" alt="Miqu Project Logo" width="180" />
 </p>
 
 <h1 align="center">Miqu Project</h1>
 
 <p align="center">
-  <b>A cohesive, high-performance Wayland desktop ecosystem & native mobile applications.</b>
+  <b>A cohesive, high-performance Wayland desktop ecosystem & native mobile applications.</b><br>
+  Website: <a href="https://miqu-project.github.io"><b>miqu-project.github.io</b></a> • Monorepo: <a href="https://github.com/miqu-project/miqu"><b>miqu-project/miqu</b></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/miqu-project/miqu"><img src="https://img.shields.io/badge/Desktop-miqu-red?style=flat-square" alt="miqu" /></a>
-  <a href="https://github.com/miqu-project/miquland"><img src="https://img.shields.io/badge/Compositor-miquland-blue?style=flat-square" alt="miquland" /></a>
-  <a href="https://github.com/miqu-project/miqutoolkit"><img src="https://img.shields.io/badge/Toolkit-miqutoolkit-purple?style=flat-square" alt="miqutoolkit" /></a>
-  <a href="https://github.com/miqu-project/miqu-linux-apps"><img src="https://img.shields.io/badge/Apps-miqu--linux--apps-green?style=flat-square" alt="miqu-linux-apps" /></a>
-  <a href="https://github.com/miqu-project/miqu-android"><img src="https://img.shields.io/badge/Mobile-miqu--android-orange?style=flat-square" alt="miqu-android" /></a>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc1.png" alt="Miqu Desktop" width="100%" />
+  <a href="https://github.com/miqu-project/miqu"><img src="https://img.shields.io/badge/Monorepo-miqu-red?style=flat-square" alt="miqu" /></a>
+  <a href="https://miqu-project.github.io"><img src="https://img.shields.io/badge/Website-miqu--project.github.io-emerald?style=flat-square" alt="Website" /></a>
+  <img src="https://img.shields.io/badge/Language-C%2B%2B20-blue?style=flat-square" alt="C++20" />
+  <img src="https://img.shields.io/badge/Display-Wayland-orange?style=flat-square" alt="Wayland" />
 </p>
 
 ---
 
-Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, unified desktop environment engineered for Wayland on Linux, featuring a custom wlroots-based compositor, a dedicated modern C++ application toolkit, a native first-party Linux application suite, and companion Android applications. Full documentation, architectural guides, and IPC references are available on the [**Miqu Project Documentation Portal**](https://miqu-project.github.io/#docs).
+### What is Miqu?
+Miqu is an independent desktop ecosystem engineered from scratch for Wayland on Linux. It eliminates UI fragmentation by pairing a custom wlroots tiling compositor with a dedicated C++20 UI framework (`miqutoolkit`), a modular shell, and native first-party applications.
 
-> [!TIP]
-> ### 🚀 Quick Install (Get Started in 1 Minute)
-> To clone and install the entire Miqu ecosystem in one step, clone our primary [**`miqu`**](https://github.com/miqu-project/miqu) repository:
-> ```bash
-> git clone https://github.com/miqu-project/miqu.git
-> cd miqu
-> sudo ./install.sh
-> ```
+Our primary portal for full architectural guides, screenshots, and documentation is **[miqu-project.github.io](https://miqu-project.github.io)**.
 
----
-
-## 🏛️ Project & Repository Structure
-
-The Miqu project is organized across the following core repositories:
-
-| Repository | Role | Technology | Description |
-|:---|:---|:---:|:---|
-| [**`miqu`**](https://github.com/miqu-project/miqu) | **Desktop Monorepo** | C++20 / Wayland / CMake | Master unified monorepo housing the compositor (`miquland`), UI toolkit (`miqutoolkit`), desktop shell (`shell/`), and all 17 native applications (`apps/`). |
-| [**`miqu-android`**](https://github.com/miqu-project/miqu-android) | **Mobile Applications** | Kotlin / Jetpack Compose | Native Android companion applications (`doctor`, `recitation`) designed to complement the Miqu environment. |
-| [**`miqu-project.github.io`**](https://github.com/miqu-project/miqu-project.github.io) | **Documentation & Web Portal** | Web / Static | Official landing website, architecture guides, and public documentation portal. |
+### Quick Start
+Build and install the entire desktop ecosystem in one command:
+```bash
+git clone https://github.com/miqu-project/miqu.git
+cd miqu
+sudo ./install.sh
+```
 
 ---
 
-## ✨ Key Principles & Vision
+### What is What
 
-- 🎨 **Zero UI Fragmentation**: Rather than relying on mismatched third-party UI frameworks, all desktop applications are powered by `miqutoolkit` for instant theme synchronization, consistent typography, and fluid animation curves.
-- ⚡ **Lightweight & High-Performance**: Built from scratch in modern C++ and wlroots, eliminating unnecessary abstraction layers and bloated runtimes.
-- 🛡️ **Security & Privacy First**: First-party tooling like `miqucontrolpanel` integrates WireGuard VPN, Private DNS (DoT), system firewall selection, OpenSnitch rules, LUKS encryption status, and Tor routing directly into an intuitive Miller-columns native interface.
-- 🪟 **Intuitive Desktop Ergonomics**: Combines the precision and speed of dynamic tiling window management with an accessible, interactive desktop canvas (`miqudesk`).
+All desktop subsystems and companion apps are organized within our primary monorepo [**`miqu`**](https://github.com/miqu-project/miqu):
 
----
+- **Core Engine & Framework**
+  - [**`miquland`**](https://github.com/miqu-project/miqu/tree/main/miquland): High-performance wlroots Wayland compositor with scenefx GPU blur, dynamic tiling, and `miquctl` IPC.
+  - [**`miqutoolkit`**](https://github.com/miqu-project/miqu/tree/main/miqutoolkit): Shared C++20 UI framework with Cairo/Pango vector rendering, RAII safety, and live inotify theme reload.
 
-## 📦 Native Application Suite Overview
- 
-- 📊 **`miqubar`** — Wayland status bar and taskbar with workspace indicators, system tray, battery/network telemetry, and flyout menus.
-- 🖥️ **`miqudesk`** — Interactive desktop canvas & widget layer bringing classic desktop usability into the Wayland tiling environment.
-- 🎛️ **`miqucontrolpanel`** — Modern Miller-columns centralized desktop control panel, network security, WireGuard VPN, Private DNS (DoT), privacy center, and system configuration manager.
-- 📁 **`miqufiles`** — Modern Yazi-style Miller columns file manager with live contextual preview (child directories, images, code/text with monospace formatting, binary file inspect) and instant navigation.
-- 🎨 **`miqutheme`** — Visual theme and appearance manager with dynamic Material You wallpaper color extraction.
-- 🎵 **`miqumusic`** — High-efficiency, lightweight native MPD client, playlist manager, and audio playback controller.
-- 🚀 **`miqulauncher`** — Fuzzy application launcher, dmenu alternative, and workspace/window switcher.
-- 👁️ **`miquoverview`** — GPU-accelerated live workspace expose and overview plugin for `miquland`.
-- 🔔 **`miqunotify`** — Native desktop notification daemon and slide-out notification history center.
-- ⚡ **`miqupower`** — Native power and session management dialog with running application detection, graceful teardown visual feedback, and logind integration.
-- 🖼️ **`miqugallery`** — Minimalist, responsive image viewer and media gallery.
-- 📈 **`miquinfo`** — System telemetry, hardware resource monitor, and diagnostic dashboard.
-- 🚪 **`miqudm`** — Wayland-native Display Manager & greeter with PAM/logind session integration.
-- 🌄 **`miqubg`** — Independent wallpaper daemon for rendering and transitioning desktop background images.
-- 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock-v1`) and idle management daemon (`ext-idle-notify-v1`).
-- 🛡️ **`miqupolkit`** — Native graphical Polkit authentication agent handling privilege escalation prompts.
+- **Desktop Shell (`shell/`)**
+  - [**`miqubar`**](https://github.com/miqu-project/miqu/tree/main/shell/miqubar): Status bar & taskbar with workspace indicators, system tray, and flyouts.
+  - [**`miqudesk`**](https://github.com/miqu-project/miqu/tree/main/shell/miqudesk): Interactive desktop canvas with desktop icons and widgets.
+  - [**`miqulauncher`**](https://github.com/miqu-project/miqu/tree/main/shell/miqulauncher): Fast fuzzy application launcher and active window switcher.
+  - [**`miquoverview`**](https://github.com/miqu-project/miqu/tree/main/shell/miquoverview): GPU-accelerated workspace exposé and window manager plugin.
+  - [**`miqunotify`**](https://github.com/miqu-project/miqu/tree/main/shell/miqunotify): Native desktop notification daemon and slide-out center.
+  - [**`miqupower`**](https://github.com/miqu-project/miqu/tree/main/shell/miqupower): Session and power management dialog with running application guards.
+  - [**`miqudm`**](https://github.com/miqu-project/miqu/tree/main/shell/miqudm): Wayland-native Display Manager and login greeter (PAM/logind).
+  - [**`miqubg`**](https://github.com/miqu-project/miqu/tree/main/shell/miqubg): Wallpaper daemon with smooth multi-monitor scaling and transitions.
+  - [**`miqulock`**](https://github.com/miqu-project/miqu/tree/main/shell/miqulock) & [**`miquidle`**](https://github.com/miqu-project/miqu/tree/main/shell/miquidle): Protocol-compliant screen locker (`ext-session-lock-v1`) and idle daemon (`ext-idle-notify-v1`).
+  - [**`miqupolkit`**](https://github.com/miqu-project/miqu/tree/main/shell/miqupolkit): Graphical Polkit agent for privilege escalation prompts.
 
----
+- **Desktop Applications (`apps/`)**
+  - [**`miqucontrolpanel`**](https://github.com/miqu-project/miqu/tree/main/apps/miqucontrolpanel): Centralized settings manager, WireGuard VPN, Private DNS (DoT), and privacy center.
+  - [**`miqufiles`**](https://github.com/miqu-project/miqu/tree/main/apps/miqufiles): Miller-columns file manager with instant contextual previews.
+  - [**`miqumusic`**](https://github.com/miqu-project/miqu/tree/main/apps/miqumusic): Fast, lightweight MPD client and audio playback interface.
+  - [**`miqugallery`**](https://github.com/miqu-project/miqu/tree/main/apps/miqugallery): Smooth image viewer and media gallery.
+  - [**`miqutheme`**](https://github.com/miqu-project/miqu/tree/main/apps/miqutheme): Dynamic wallpaper palette extraction and visual theme manager.
+  - [**`miquinfo`**](https://github.com/miqu-project/miqu/tree/main/apps/miquinfo): Real-time hardware telemetry and system resource monitor.
 
-## 📸 Screenshots
-
-![Screenshot 1](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc1.png)
-
-![Screenshot 2](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc2.png)
-
-![Screenshot 3](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc3.png)
-
-![Screenshot 4](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc4.png)
-
-![Screenshot 5](https://raw.githubusercontent.com/miqu-project/miqu-project.github.io/main/assets/screenshots/sc5.png)
-
----
-
-## 🛠️ Community & Ecosystem
-
-- 🌐 **Organization**: [github.com/miqu-project](https://github.com/miqu-project)
-- 💡 **Contribute**: Feel free to explore our repositories, report issues, and submit pull requests.
+- **Mobile Applications (`mobile/`)**
+  - [**`doctor`**](https://github.com/miqu-project/miqu/tree/main/mobile/doctor): Healthcare diagnostic companion app (Android / Jetpack Compose).
+  - [**`recitation`**](https://github.com/miqu-project/miqu/tree/main/mobile/recitation): Distraction-free Quran audio recitation and study app (Android / Jetpack Compose).
 
 ---
 
 <p align="center">
-  <sub>Built with passion for the Linux and Wayland community.</sub>
+  <sub>Explore full documentation, screenshots, and specifications at <a href="https://miqu-project.github.io"><b>miqu-project.github.io</b></a>.</sub>
 </p>
