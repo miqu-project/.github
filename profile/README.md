@@ -44,7 +44,7 @@ The Miqu project is organized across the following core repositories:
 | [**`miqu`**](https://github.com/miqu-project/miqu) | **Desktop Umbrella & Orchestrator** | Shell / Git Submodules | Unified meta-repository synchronizing all ecosystem submodules and providing the single-command orchestrator (`install_all.sh`). |
 | [**`miquland`**](https://github.com/miqu-project/miquland) | **Compositor & Window Manager** | C++20 / wlroots | GPU-accelerated tiling compositor with dynamic layout engines, exposed overview plugin, and IPC daemon (`miquctl`). |
 | [**`miqutoolkit`**](https://github.com/miqu-project/miqutoolkit) | **Shared UI Toolkit** | C++20 / Cairo / Pango | Unified Wayland application toolkit providing declarative widgets, fluid animations, and live theme propagation. |
-| [**`miqu-linux-apps`**](https://github.com/miqu-project/miqu-linux-apps) | **Native Desktop Suite** | C++20 / miqutoolkit | Cohesive first-party desktop applications (`miqudesk`, `miqusecure`, `miqumusic`, `miqulauncher`, `miqugallery`, `miqudm`, etc.). |
+| [**`miqu-linux-apps`**](https://github.com/miqu-project/miqu-linux-apps) | **Native Desktop Suite** | C++20 / miqutoolkit | Cohesive suite of 17 first-party desktop applications (`miqubar`, `miqudesk`, `miqucontrolpanel`, `miqufiles`, `miqumusic`, `miqulauncher`, `miquoverview`, `miqunotify`, `miqupower`, `miqutheme`, `miqugallery`, `miquinfo`, `miqudm`, `miqubg`, `miqulock`, `miquidle`, `miqupolkit`). |
 | [**`miqu-android`**](https://github.com/miqu-project/miqu-android) | **Mobile Applications** | Kotlin / Jetpack Compose | Native Android apps and mobile companions designed to complement the Miqu environment. |
 | [**`miqu-project.github.io`**](https://github.com/miqu-project/miqu-project.github.io) | **Documentation & Web Portal** | Web / Static | Official landing page and public documentation website. |
 
@@ -54,27 +54,29 @@ The Miqu project is organized across the following core repositories:
 
 - 🎨 **Zero UI Fragmentation**: Rather than relying on mismatched third-party UI frameworks, all desktop applications are powered by `miqutoolkit` for instant theme synchronization, consistent typography, and fluid animation curves.
 - ⚡ **Lightweight & High-Performance**: Built from scratch in modern C++ and wlroots, eliminating unnecessary abstraction layers and bloated runtimes.
-- 🛡️ **Security & Privacy First**: First-party tooling like `miqusecure` integrates system firewall selection, OpenSnitch rules, LUKS encryption status, and Tor routing directly into an intuitive native interface.
+- 🛡️ **Security & Privacy First**: First-party tooling like `miqucontrolpanel` integrates WireGuard VPN, Private DNS (DoT), system firewall selection, OpenSnitch rules, LUKS encryption status, and Tor routing directly into an intuitive Miller-columns native interface.
 - 🪟 **Intuitive Desktop Ergonomics**: Combines the precision and speed of dynamic tiling window management with an accessible, interactive desktop canvas (`miqudesk`).
 
 ---
 
 ## 📦 Native Application Suite Overview
-
+ 
 - 📊 **`miqubar`** — Wayland status bar and taskbar with workspace indicators, system tray, battery/network telemetry, and flyout menus.
 - 🖥️ **`miqudesk`** — Interactive desktop canvas & widget layer bringing classic desktop usability into the Wayland tiling environment.
+- 🎛️ **`miqucontrolpanel`** — Modern Miller-columns centralized desktop control panel, network security, WireGuard VPN, Private DNS (DoT), privacy center, and system configuration manager.
+- 📁 **`miqufiles`** — Modern Yazi-style Miller columns file manager with live contextual preview (child directories, images, code/text with monospace formatting, binary file inspect) and instant navigation.
 - 🎨 **`miqutheme`** — Visual theme and appearance manager with dynamic Material You wallpaper color extraction.
-- 🔒 **`miqusecure`** — Privacy and firewall command center (OpenSnitch, Tor, LUKS, audit policies).
-- 🎵 **`miqumusic`** — High-efficiency, lightweight native MPD client and audio player.
+- 🎵 **`miqumusic`** — High-efficiency, lightweight native MPD client, playlist manager, and audio playback controller.
 - 🚀 **`miqulauncher`** — Fuzzy application launcher, dmenu alternative, and workspace/window switcher.
 - 👁️ **`miquoverview`** — GPU-accelerated live workspace expose and overview plugin for `miquland`.
+- 🔔 **`miqunotify`** — Native desktop notification daemon and slide-out notification history center.
+- ⚡ **`miqupower`** — Native power and session management dialog with running application detection, graceful teardown visual feedback, and logind integration.
 - 🖼️ **`miqugallery`** — Minimalist, responsive image viewer and media gallery.
 - 📈 **`miquinfo`** — System telemetry, hardware resource monitor, and diagnostic dashboard.
 - 🚪 **`miqudm`** — Wayland-native Display Manager & greeter with PAM/logind session integration.
 - 🌄 **`miqubg`** — Independent wallpaper daemon for rendering and transitioning desktop background images.
-- 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock-v1`) and idle management.
+- 🔐 **`miqulock` & `miquidle`** — Protocol-compliant session locking (`ext-session-lock-v1`) and idle management daemon (`ext-idle-notify-v1`).
 - 🛡️ **`miqupolkit`** — Native graphical Polkit authentication agent handling privilege escalation prompts.
-- 🧪 **`miqutest`** — Interactive widget testing sandbox and showcase for `miqutoolkit` controls.
 
 ---
 

@@ -80,6 +80,34 @@ Config::get()->setup_config_watcher();
 
 ---
 
+### Inotify & Dynamic Live Reload Architectural Doctrine
+
+All inotify config watchers across the entire ecosystem (`miquland`, `miqutoolkit`, and standalone utilities like `miquidle` and `miquoverview`) must strictly adhere to the five golden rules of inotify hygiene:
+
+1. **`IN_IGNORED` is Strictly an Acknowledgment Event, Never a Content Change**:
+   - `IN_IGNORED` is emitted by the Linux kernel when a watch is removed (`inotify_rm_watch`) or a monitored entity is unmounted.
+   - Event handlers must explicitly intercept `event->mask & IN_IGNORED` to invalidate internal descriptors (`wd = -1`) and `continue` immediately.
+   - **Never** mark `should_reload = true` or trigger a reload on `IN_IGNORED`. Treating watch teardowns as file modifications creates infinite reload feedback loops.
+
+2. **Strict Write-Mask Filtering & Directory-Self Protection**:
+   - Live reloads must only respond to genuine write and creation events: `IN_MODIFY`, `IN_CLOSE_WRITE`, `IN_MOVED_TO`, and `IN_CREATE`.
+   - In directory watchers, events targeting the directory itself (`event->len == 0`, such as metadata adjustments or watch invalidations) must **never** trigger reloads. File reloads require `event->len > 0` matching the target filename or `.conf` extension.
+
+3. **Single Inode Watch Authority (No Overlapping Watches)**:
+   - Linux inotify deduplicates watches per inode within an inotify instance (returning the existing `wd`).
+   - The primary application configuration (`<app>.conf`) must be watched strictly through its dedicated primary watch descriptor, while dynamically included files (`source = ...`) are watched via the sourced files collection.
+   - Never add the primary configuration file into the sourced files watch list; doing so creates shared watch descriptors that invalidate primary tracking when sourced watches are updated.
+
+4. **Zero Watch Descriptor Churn (Idempotent Watch Syncing)**:
+   - On dynamic reload, components must diff the list of active sourced files against previous registrations (`new_sourced == m_watched_sourced_files`).
+   - If the list of loaded sourced files has not changed, retain active kernel watches as-is. Avoid destroying and re-adding identical inotify watches on every reload cycle.
+
+5. **Debounce Discipline & Synchronous IPC Coordination**:
+   - Asynchronous filesystem modifications must be debounced (150–250ms) via a one-shot event-loop timer to coalesce rapid multi-chunk writes and atomic editor renames (`.tmp` -> `rename`).
+   - Explicit IPC reload commands (such as `miquctl reload` or Unix domain socket signals) must immediately disarm any pending debounce timer (`wl_event_source_timer_update(timer, 0)`) to ensure instant, single-pass, synchronous execution without redundant delayed secondaries.
+
+---
+
 ### Zero Source-Code Appearance Defaults
 - Shared appearance tokens (colors, fonts, metrics, `icon_theme`) must **NEVER** have fallback magic literals in C++ struct initializers.
 - All downstream applications must implement a `sync_defaults_from_toolkit()` pattern that queries `Config::get()`.
@@ -96,11 +124,12 @@ Config::get()->setup_config_watcher();
 ### Linux Applications (`miqu-linux-apps`)
 - **`miqubar`**: Wayland status bar and taskbar, featuring workspace indicators, window lists, system tray, battery/network telemetry modules, and interactive flyout menus.
 - **`miqudesk`**: Interactive desktop canvas and widget layer that brings familiar desktop ergonomics (desktop icons, shortcuts, widgets) to a modern tiling Wayland environment.
-- **`miqusecure`**: Privacy, firewall, and security command center, providing native management for Tor, OpenSnitch application firewall rules, LUKS encryption status, and privacy auditing.
+- **`miqucontrolpanel`**: Modern Miller-columns centralized desktop control panel, network security, WireGuard VPN, Private DNS (DoT), privacy center, and system configuration manager.
 - **`miqumusic`**: Fast, lightweight native MPD (Music Player Daemon) client and audio playback interface.
 - **`miqulauncher`**: Fast application launcher, fuzzy dmenu alternative, workspace navigator, and active window switcher.
 - **`miquoverview`**: GPU-accelerated live workspace expose and overview plugin/utility for window management in `miquland`.
 - **`miqunotify`**: Native desktop notification daemon and slide-out notification history center.
+- **`miqupower`**: Desktop Environment power and session management dialog with running application detection, graceful teardown visual feedback, and systemd-logind / miquland IPC integration.
 - **`miqutheme`**: Visual theme and appearance manager for selecting color schemes, wallpapers, fonts, and global design tokens.
 - **`miqugallery`**: High-performance image viewer and media gallery application.
 - **`miquinfo`**: Hardware monitoring, system telemetry, and diagnostic resource utility.
@@ -109,43 +138,41 @@ Config::get()->setup_config_watcher();
 - **`miqulock`**: Session locking utility implementing the Wayland `ext-session-lock-v1` protocol.
 - **`miquidle`**: Idle management daemon monitoring user activity and power events via the Wayland `ext-idle-notify-v1` protocol.
 - **`miqupolkit`**: Native graphical Polkit authentication agent handling privilege escalation prompts.
-- **`miqutest`**: Component testing sandbox and interactive widget showcase for developing and verifying `miqutoolkit` controls.
+- **`miqufiles`**: Modern Yazi-style Miller columns file manager with contextual live preview (child directories, images, code/text with monospace formatting, binary file inspect) and instant keyboard/mouse navigation.
 
 ---
 
 ## Active & Future Roadmap (TODO List)
 
-1. **`miquctl` Comprehensive Compositor IPC Utility**: First-party CLI controller communicating with `miquland` over Unix domain socket (workspace switching/querying, window dispatching, monitor configuration, config reload, dynamic plugin management, and runtime diagnostics).
-2. **Plugin System v2.0 (After `miquctl`)**:
-   - Window & Workspace Event Bus (`on_workspace_switch`, `on_view_map`, `on_view_unmap`, `on_view_focus`, `on_monitor_change`).
-   - Touchpad & Touchscreen Multi-Finger Gesture Hooks (3/4-finger swipe begin/update/end, pinch).
-   - Per-Plugin Hook Isolation & Dynamic CLI Management (`miquctl plugin list`, `load <path>`, `unload <name>`).
-   - Plugin-Defined Configuration Directives (parsed directly from `miquland.conf`).
-   - Custom Tiling Layout Engine Registration API (enabling spiral, dwindle, monocle, master-stack plugins).
-   - Pre/Post-Render & Frame Tick Hooks.
-3. **Next Utilities & Applications**:
+
+1. **Plugin System v2.0 **:
+   -
+2. **Next Utilities & Applications**:
    - `miqushot` (screenshot utility)
    - `miqusunset` (gamma/blue light control)
-   - `miqusettings` (centralized system settings)
+   - `miqucontrolpanel` (completed: modern Miller-columns centralized desktop control panel and settings manager)
    - Package manager front-end
-   - `miqupower` (power management / session dialog)
-4. **Configuration Parser & Legacy Alias Deprecation**: Deprecate redundant backward-compatibility wrappers and duplicate syntax in config parser.
-5. **Privacy & Security Center (`miqusecure`) Extensions**: OpenSnitch frontend, 1-click Tor enabler, browser privacy advisor, security auditor, LUKS advice, firewall (ufw/nftables) selection, system restore points (Timeshift/Snapper OS snapshots).
-6. **Touch Screen Gestures**: Multi-touch gesture recognition (swipes, pinch-to-zoom, edge gestures) for touchscreen devices.
-7. **Virtual Machine Front-End**: Front-end utility to try out Linux distributions.
-8. **Firefox Live Preview Fix in `miquoverview`**: Resolve subsurfaces / popup preview bounding in overview cards.
-9. **Floating Window Improvements**: Review move/resize mechanics and config window rules.
-10. **Window Border Shading & Gradient Colors (Ecosystem Phase 2 - Client Decorations)**: Extend gradient colors, multi-stop borders, and border shading to `miqutoolkit` views (`ViewGroup`, `CardView`) and client decorations.
-11. **`miqutoolkit` Internal Animation Framework Implementation**: Implement a first-class, frame-driven animation engine natively inside `miqutoolkit` (supporting configurable easing curves, spring dynamics, opacity fades, geometry interpolations, and hover/focus transitions) to provide smooth, high-framerate UI animations across all downstream applications.
-12. **`miqubg` Internal Animation & Cross-Fade Transition**: `miqubg` currently relies on `miquland` compositor animations by spawning a temporary second layer surface and tearing it down after a timer. Evaluate and implement native internal animation / cross-fading directly inside `miqubg` and `miqutoolkit` (rendering smooth image transitions inside a single persistent background surface without creating temporary secondary layer surfaces).
-13. **Configuration Format Modernization (Lua / Advanced Scriptable Formats)**: Evaluate transitioning or expanding configuration formats across `miquland` and ecosystem components from custom key-value parsers to Lua (e.g. LuaJIT / Sol2) or other expressive configuration formats (enabling programmable rules, dynamic event callbacks, math expressions, and modular config architectures).
-14. **Add separate `miqupluginmanager`**: Dedicated manager and utility to discover, install, update, enable/disable, and configure `miquland` plugins and extensions.
-15. **`miqutheme` Auto-Seeding & Asset Layering Study**: `miqutheme` currently copies default schemes, wallpapers, and matugen templates into `~/.config/miqutheme/` on its very first launch (`ensure_directories_and_seed()`). Study and address potential loopholes (e.g. user directory pollution on startup, stale local copies when system schemes update upstream) and evaluate transitioning `miqutheme` to load system assets directly from `/usr/share/miqutheme/` while reserving `~/.config/miqutheme/` strictly for user-created custom wallpapers and palettes.
-16. **Gamma Control in `miqubar`**: Implement gamma / blue light control module and flyout slider in `miqubar` (integrating with gamma control protocol / `miqusunset`).
-17. **`miqunotify` Toast Layout & Shadow Fix**: Refine `miqunotify` notification toast rendering and layout—evaluate disabling drop shadows and guarantee notification body/action content stays strictly confined within the toast bounds without overflow or clipping.
+   
+4. **Privacy & Security Extensions in `miqucontrolpanel`**: OpenSnitch frontend, 1-click Tor enabler, browser privacy advisor, security auditor, LUKS advice, firewall (ufw/nftables) selection, system restore points (Timeshift/Snapper OS snapshots).
+7. **Touch Screen Gestures**: Multi-touch gesture recognition (swipes, pinch-to-zoom, edge gestures) for touchscreen devices.
+8. **Virtual Machine Front-End**: Front-end utility to try out Linux distributions.
+9. **Firefox Live Preview Fix in `miquoverview`**: Resolve subsurfaces / popup preview bounding in overview cards.
+10. **Floating Window Improvements**: Review move/resize mechanics and config window rules.
+11. **Window Border Shading & Gradient Colors (Ecosystem Phase 2 - Client Decorations)**: Extend gradient colors, multi-stop borders, and border shading to `miqutoolkit` views (`ViewGroup`, `CardView`) and client decorations.
+12. **`miqutoolkit` Internal Animation Framework Implementation**: Implement a first-class, frame-driven animation engine natively inside `miqutoolkit` (supporting configurable easing curves, spring dynamics, opacity fades, geometry interpolations, and hover/focus transitions) to provide smooth, high-framerate UI animations across all downstream applications.
+13. **`miqubg` Internal Animation & Cross-Fade Transition**: `miqubg` currently relies on `miquland` compositor animations by spawning a temporary second layer surface and tearing it down after a timer. Evaluate and implement native internal animation / cross-fading directly inside `miqubg` and `miqutoolkit` (rendering smooth image transitions inside a single persistent background surface without creating temporary secondary layer surfaces).
+14. **Configuration Format Modernization (Lua / Advanced Scriptable Formats)**: Evaluate transitioning or expanding configuration formats across `miquland` and ecosystem components from custom key-value parsers to Lua (e.g. LuaJIT / Sol2) or other expressive configuration formats (enabling programmable rules, dynamic event callbacks, math expressions, and modular config architectures).
+15. **Add separate `miqupluginmanager`**: Dedicated manager and utility to discover, install, update, enable/disable, and configure `miquland` plugins and extensions.
+16. **`miqutheme` Auto-Seeding & Asset Layering Study**: `miqutheme` currently copies default schemes, wallpapers, and matugen templates into `~/.config/miqutheme/` on its very first launch (`ensure_directories_and_seed()`). Study and address potential loopholes (e.g. user directory pollution on startup, stale local copies when system schemes update upstream) and evaluate transitioning `miqutheme` to load system assets directly from `/usr/share/miqutheme/` while reserving `~/.config/miqutheme/` strictly for user-created custom wallpapers and palettes.
+17. **Gamma Control in `miqubar`**: Implement gamma / blue light control module and flyout slider in `miqubar` (integrating directly with native `miquland` IPC via `miquctl gamma`).
+
 18. **Special / Scratchpad Workspace Support in `miquland`**: Implement special workspace (scratchpad) functionality in `miquland` (toggleable overlay workspace, dispatching windows to/from special workspace, keybindings, and IPC controls).
 
----
+19. **Fix Idle Inhibitor Not Being Responded**: Fix the idle inhibitor not being responded to when set to "keep awake" from apps like Antigravity (ensure idle inhibitor protocol requests and surface/portal inhibition properly prevent idle transitions and screen sleep in `miquland` and `miquidle`).
+
+20. **Fix Kitty Artifact on Launch with CSD**: Fix kitty artifact on launch which goes away on interaction when CSD is turned on (investigate initial configure geometry, frame sizing, or buffer commit synchronization when negotiating client-side decorations in `miquland`).
+
+
 
 ## Core Coding Craftsmanship Standards
 
@@ -176,8 +203,12 @@ Config::get()->setup_config_watcher();
 - If a logic pattern, event dispatch loop, or geometry calculation repeats more than once, immediately extract it into a parameterized helper function.
 - Never duplicate 30–50 line blocks across files with only trivial variable substitutions.
 
-### 6. Reuse Existing Code First (Search Before Authoring)
+### 6. Reuse Existing Code & Convention-First Architecture
 - **Never reinvent the wheel**: Before authoring a helper, math calculation, geometry converter, or string utility, inspect the existing codebase.
+- **Reuse Existing Classes & Modules**: Check for existing domain classes, managers, or data structures across our source code before authoring parallel abstractions.
+- **Refactor While Reusing**: If an existing class or helper to be reused violates craftsmanship standards, contains legacy anti-patterns, or has narrow unmodular interfaces, refactor it to meet the standard rather than duplicating it or building on top of technical debt.
+- **Respect Proven Platform Conventions**: Default strictly to industry-standard platform contracts, protocols, and proven ergonomics unless explicitly designing a novel innovation.
+- **Mathematical & Structural Rigor**: Ground systems in established structural, mathematical, and behavioral conventions to prevent idiosyncratic, bespoke maintenance traps.
 - **Generalize existing helpers**: If an existing function provides 90% of what is needed, extend or generalize it cleanly rather than writing duplicate private variants.
 
 ### 7. Accurate Naming & Renaming Hygiene
@@ -189,30 +220,41 @@ Config::get()->setup_config_watcher();
 
 ### 9. Ripple-Effect & Blast-Radius Awareness (Zero Myopic Fixes)
 - **System-Wide Impact Tracing**: Before modifying any shared structure, hook, or method signature, proactively trace its potential ripple effects across the entire ecosystem.
+- **Proactive Ecosystem Impact Tracing**: Ensure localized enhancements never compromise cross-layer stability, contracts, or dependent components.
 - **Zero Band-Aid Edits**: Never make isolated edits that solve an immediate symptom while breaking distant subsystems or introducing regressions.
 - **Verify All Invariants & Call Sites**: Inspect all dependent call sites and downstream components to guarantee end-to-end architectural integrity.
 
-### 10. Radical Candor & Intellectual Honesty (Zero Faking or Sycophancy)
+### 10. Radical Candor, Technical Feasibility & System Primitives
 - **Learn to Say "I Could Not Find", "Cannot Do", or "Sorry"**: Never fabricate non-existent APIs, hallucinate symbols, or invent broken workarounds.
-- **Upfront Renderer & Protocol Reality Checks**: State hard protocol or low-level limitations upfront (e.g. stock wlroots surface clipping limitations without custom fragment shaders or scenefx).
+- **Respect Technical Feasibility**: Respect what is technically feasible within the authoritative cost models and physical boundaries of the underlying platform stack.
+- **Grounding in System Primitives**: Never attempt to circumvent hardware or protocol realities with pseudo-solutions; isolate global pipeline costs from local entity parameters.
+- **Upfront Protocol Reality Checks**: State hard protocol or low-level limitations upfront (e.g. stock wlroots surface clipping limitations without custom fragment shaders or scenefx).
 - **Zero Pseudo-Solutions**: If a requirement is unfeasible or risks stability, state the limitations honestly and propose genuine architectural prerequisites.
 
-### 11. Full-Stack Ecosystem Sovereignty & Zero Defensive Fallbacks
+### 11. Autonomous End-to-End Ownership (Anti-Half-Ass Implementation)
+- **No Superficial Patches or Partial MVPs**: Never stop at a superficial patch or partial MVP; autonomously audit the full lifecycle, failure modes, and edge cases.
+- **Complete Engineering Contracts**: Deliver complete, professional solutions with verified resting states, eliminating the need for piecemeal user prompting or supervisory hand-holding.
+
+### 12. Full-Stack Ecosystem Sovereignty & Zero Defensive Fallbacks
 - **End-to-End Stack Control**: We design, build, and maintain the entire Miqu ecosystem (`miquland`, `miqutoolkit`, and all native apps).
 - **No Speculative Fallbacks**: Never introduce defensive fallback branches, heuristic guesswork, or redundant fallback mechanisms for behaviors that we natively control and guarantee across our own stack.
 - **Single Authoritative Pipeline**: Design one clean, protocol-driven contract across layers. Implement missing capabilities cleanly at their authoritative source layer.
 
-### 12. Interface-First Design (Contract Precedes Implementation)
-- Always design and validate public class interfaces, method signatures, data structures, and lifecycle contracts before writing implementation logic.
+### 13. Interface-First Design, Symmetry & Cognitive Ergonomics
+- **Contract Precedes Implementation**: Always design and validate public class interfaces, method signatures, data structures, and lifecycle contracts before writing implementation logic.
+- **Architectural Symmetry & Parity**: Maintain strict feature parity, structural symmetry, and predictable mental models across parallel subsystems and configuration domains.
+- **Cognitive Ergonomics & Zero Hidden Magic**: Design clean, intuitive, and self-documenting interfaces with zero hidden background magic, undocumented assumptions, or arbitrary quirks.
 
-### 13. Opportunistic Refactoring
+### 14. Opportunistic Refactoring
 - If non-conforming or unmodular code is spotted during analysis of an unrelated task, offer to refactor that part.
 
-### 14. Zero Idle CPU Usage & Frame Loop Hygiene (Strict Event-Driven Inactivity)
+### 15. Zero Idle CPU Usage & Frame Loop Hygiene (Strict Event-Driven Inactivity)
 - **Absolute 0% Idle CPU in `miquland` & Ecosystem**: The compositor (`miquland`) and all desktop applications must sleep completely in the Wayland event loop when there are no active input events, damaged scene buffers, or running animations. At steady-state idle, CPU utilization must be strictly 0.0%.
+- **Strict Event-Driven Dormancy**: Enforce absolute event-driven dormancy at steady-state idle—never permit continuous polling, unthrottled ticks, or redundant surface commits.
 - **Zero Polling & Tick Loops**: Never use continuous timers, tick loops, periodic wakeups, or unthrottled frame callbacks when the UI is static. Frame scheduling must be strictly damage-driven (`wlr_output_schedule_frame` invoked only when actual damage occurs).
 - **Instant Animation Timer Teardown**: Any frame callbacks, animators, and timer event sources must be immediately disarmed and destroyed the exact moment an animation completes; they must never remain active or spin in the event loop.
 - **Buffer Commit Discipline**: Never trigger output frame repaints or damage tracking on redundant client surface commits if buffer contents, subsurface states, or view positions have not changed.
+- **Inotify & Watcher Dormancy**: Inotify event loops and config watchers must settle completely into dormancy after a single debounced reload. Never allow descriptor invalidation events (`IN_IGNORED`) or teardown routines to re-arm debounce timers or spin the event loop in background reload loops.
 
 ---
 
