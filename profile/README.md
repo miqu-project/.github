@@ -28,9 +28,9 @@ Welcome to the official GitHub organization for **Miqu**. Miqu is an ambitious, 
 > ### 🚀 Quick Install (Get Started in 1 Minute)
 > To clone and install the entire Miqu ecosystem in one step, clone our primary [**`miqu`**](https://github.com/miqu-project/miqu) repository:
 > ```bash
-> git clone --recurse-submodules https://github.com/miqu-project/miqu.git
+> git clone https://github.com/miqu-project/miqu.git
 > cd miqu
-> sudo ./install_all.sh
+> sudo ./install.sh
 > ```
 
 ---
@@ -41,12 +41,9 @@ The Miqu project is organized across the following core repositories:
 
 | Repository | Role | Technology | Description |
 |:---|:---|:---:|:---|
-| [**`miqu`**](https://github.com/miqu-project/miqu) | **Desktop Umbrella & Orchestrator** | Shell / Git Submodules | Unified meta-repository synchronizing all ecosystem submodules and providing the single-command orchestrator (`install_all.sh`). |
-| [**`miquland`**](https://github.com/miqu-project/miquland) | **Compositor & Window Manager** | C++20 / wlroots | GPU-accelerated tiling compositor with dynamic layout engines, exposed overview plugin, and IPC daemon (`miquctl`). |
-| [**`miqutoolkit`**](https://github.com/miqu-project/miqutoolkit) | **Shared UI Toolkit** | C++20 / Cairo / Pango | Unified Wayland application toolkit providing declarative widgets, fluid animations, and live theme propagation. |
-| [**`miqu-linux-apps`**](https://github.com/miqu-project/miqu-linux-apps) | **Native Desktop Suite** | C++20 / miqutoolkit | Cohesive suite of 17 first-party desktop applications (`miqubar`, `miqudesk`, `miqucontrolpanel`, `miqufiles`, `miqumusic`, `miqulauncher`, `miquoverview`, `miqunotify`, `miqupower`, `miqutheme`, `miqugallery`, `miquinfo`, `miqudm`, `miqubg`, `miqulock`, `miquidle`, `miqupolkit`). |
-| [**`miqu-android`**](https://github.com/miqu-project/miqu-android) | **Mobile Applications** | Kotlin / Jetpack Compose | Native Android apps and mobile companions designed to complement the Miqu environment. |
-| [**`miqu-project.github.io`**](https://github.com/miqu-project/miqu-project.github.io) | **Documentation & Web Portal** | Web / Static | Official landing page and public documentation website. |
+| [**`miqu`**](https://github.com/miqu-project/miqu) | **Desktop Monorepo** | C++20 / Wayland / CMake | Master unified monorepo housing the compositor (`miquland`), UI toolkit (`miqutoolkit`), desktop shell (`shell/`), and all 17 native applications (`apps/`). |
+| [**`miqu-android`**](https://github.com/miqu-project/miqu-android) | **Mobile Applications** | Kotlin / Jetpack Compose | Native Android companion applications (`doctor`, `recitation`) designed to complement the Miqu environment. |
+| [**`miqu-project.github.io`**](https://github.com/miqu-project/miqu-project.github.io) | **Documentation & Web Portal** | Web / Static | Official landing website, architecture guides, and public documentation portal. |
 
 ---
 
