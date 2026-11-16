@@ -124,7 +124,7 @@ All inotify config watchers across the entire ecosystem (`miquland`, `miqutoolki
 ### Linux Applications (`miqu-linux-apps`)
 - **`miqubar`**: Wayland status bar and taskbar, featuring workspace indicators, window lists, system tray, battery/network telemetry modules, and interactive flyout menus.
 - **`miqudesk`**: Interactive desktop canvas and widget layer that brings familiar desktop ergonomics (desktop icons, shortcuts, widgets) to a modern tiling Wayland environment.
-- **`miqucontrolpanel`**: Modern Miller-columns centralized desktop control panel, network security, WireGuard VPN, Private DNS (DoT), privacy center, and system configuration manager.
+- **`miqusettings`**: Modern Miller-columns centralized desktop settings manager, network security, WireGuard VPN, Private DNS (DoT), privacy center, and system configuration manager.
 - **`miqumusic`**: Fast, lightweight native MPD (Music Player Daemon) client and audio playback interface.
 - **`miqulauncher`**: Fast application launcher, fuzzy dmenu alternative, workspace navigator, and active window switcher.
 - **`miquoverview`**: GPU-accelerated live workspace expose and overview plugin/utility for window management in `miquland`.
@@ -150,10 +150,10 @@ All inotify config watchers across the entire ecosystem (`miquland`, `miqutoolki
 2. **Next Utilities & Applications**:
    - `miqushot` (screenshot utility)
    - `miqusunset` (gamma/blue light control)
-   - `miqucontrolpanel` (completed: modern Miller-columns centralized desktop control panel and settings manager)
+   - `miqusettings` (completed: modern Miller-columns centralized desktop settings manager)
    - Package manager front-end
    
-4. **Privacy & Security Extensions in `miqucontrolpanel`**: OpenSnitch frontend, 1-click Tor enabler, browser privacy advisor, security auditor, LUKS advice, firewall (ufw/nftables) selection, system restore points (Timeshift/Snapper OS snapshots).
+4. **Privacy & Security Extensions in `miqusettings`**: OpenSnitch frontend, 1-click Tor enabler, browser privacy advisor, security auditor, LUKS advice, firewall (ufw/nftables) selection, system restore points (Timeshift/Snapper OS snapshots).
 7. **Touch Screen Gestures**: Multi-touch gesture recognition (swipes, pinch-to-zoom, edge gestures) for touchscreen devices.
 8. **Virtual Machine Front-End**: Front-end utility to try out Linux distributions.
 9. **Firefox Live Preview Fix in `miquoverview`**: Resolve subsurfaces / popup preview bounding in overview cards.
