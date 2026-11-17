@@ -54,11 +54,10 @@ All desktop subsystems and companion apps are organized within our primary monor
   - [**`miqupolkit`**](https://github.com/miqu-project/miqu/tree/main/shell/miqupolkit): Graphical Polkit agent for privilege escalation prompts.
 
 - **Desktop Applications (`apps/`)**
-  - [**`miqusettings`**](https://github.com/miqu-project/miqu/tree/main/apps/miqusettings): Centralized settings manager, WireGuard VPN, Private DNS (DoT), and privacy center.
+  - [**`miqusettings`**](https://github.com/miqu-project/miqu/tree/main/apps/miqusettings): Centralized settings manager, visual theme & appearance manager, WireGuard VPN, Private DNS (DoT), and privacy center.
   - [**`miqufiles`**](https://github.com/miqu-project/miqu/tree/main/apps/miqufiles): Miller-columns file manager with instant contextual previews.
   - [**`miqumusic`**](https://github.com/miqu-project/miqu/tree/main/apps/miqumusic): Fast, lightweight MPD client and audio playback interface.
   - [**`miqugallery`**](https://github.com/miqu-project/miqu/tree/main/apps/miqugallery): Smooth image viewer and media gallery.
-  - [**`miqutheme`**](https://github.com/miqu-project/miqu/tree/main/apps/miqutheme): Dynamic wallpaper palette extraction and visual theme manager.
   - [**`miquinfo`**](https://github.com/miqu-project/miqu/tree/main/apps/miquinfo): Real-time hardware telemetry and system resource monitor.
 
 - **Mobile Applications (`mobile/`)**
