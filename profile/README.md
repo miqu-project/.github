@@ -57,8 +57,6 @@ All desktop subsystems and companion apps are organized within our primary monor
   - [**`miqusettings`**](https://github.com/miqu-project/miqu/tree/main/apps/miqusettings): Centralized settings manager, visual theme & appearance manager, WireGuard VPN, Private DNS (DoT), and privacy center.
   - [**`miqufiles`**](https://github.com/miqu-project/miqu/tree/main/apps/miqufiles): Miller-columns file manager with instant contextual previews.
   - [**`miqumusic`**](https://github.com/miqu-project/miqu/tree/main/apps/miqumusic): Fast, lightweight MPD client and audio playback interface.
-  - [**`miqugallery`**](https://github.com/miqu-project/miqu/tree/main/apps/miqugallery): Smooth image viewer and media gallery.
-  - [**`miquinfo`**](https://github.com/miqu-project/miqu/tree/main/apps/miquinfo): Real-time hardware telemetry and system resource monitor.
 
 - **Mobile Applications (`mobile/`)**
   - [**`doctor`**](https://github.com/miqu-project/miqu/tree/main/mobile/doctor): Healthcare diagnostic companion app (Android / Jetpack Compose).

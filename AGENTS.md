@@ -118,7 +118,7 @@ All inotify config watchers across the entire ecosystem (`miquland`, `miqutoolki
 
 ### Zero Source-Code Appearance Defaults & Dynamic Sync
 - Shared appearance tokens (colors, fonts, metrics, `icon_theme`) must **NEVER** have fallback magic literals in C++ widget styling methods.
-- All downstream applications must implement a theme synchronization method (`sync_theme()` in `miqufiles`, `miqumusic`, `miqugallery`; or `sync_defaults_from_toolkit()` in `miqubar`) that queries `Config::get()`.
+- All downstream applications must implement a theme synchronization method (`sync_theme()` in `miqusettings`, `miqufiles`, `miqumusic`; or `sync_defaults_from_toolkit()` in `miqubar`) that queries `Config::get()`.
 - This sync must be executed unconditionally on application startup and dynamically whenever an `engine->add_theme_change_listener()` callback is triggered.
 
 ---
@@ -138,8 +138,6 @@ All inotify config watchers across the entire ecosystem (`miquland`, `miqutoolki
 - **`miquoverview`**: GPU-accelerated live workspace expose and overview plugin/utility for window management in `miquland`.
 - **`miqunotify`**: Native desktop notification daemon and slide-out notification history center.
 - **`miqupower`**: Desktop Environment power and session management dialog with running application detection, graceful teardown visual feedback, and systemd-logind / miquland IPC integration.
-- **`miqugallery`**: High-performance image viewer and media gallery application.
-- **`miquinfo`**: Hardware monitoring, system telemetry, and diagnostic resource utility.
 - **`miqudm`**: Wayland-native Display Manager and login greeter with PAM and logind session management.
 - **`miqubg`**: Independent wallpaper daemon responsible for rendering, scaling, and transitioning desktop background images.
 - **`miqulock`**: Session locking utility implementing the Wayland `ext-session-lock-v1` protocol.
